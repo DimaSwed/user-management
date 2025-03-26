@@ -1,8 +1,24 @@
+@use './variables' as *
+
 :root
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif
   line-height: 1.5
   font-weight: 400
 
-  color-scheme: light dark
-  color: rgba(255, 255, 255, 0.87)
-  background-color: #242424
+  font-synthesis: none
+  text-rendering: optimizeLegibility
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+
+  background-color: $color-light-blue
+  background: linear-gradient(
+    135deg, 
+  #0E4A80 0%,
+  #1B6EC2 25%,
+  #2A8FD6 50%,
+  #3CAAEA 75%,
+  #50C4FF 100%
+  )
+    background-size: 400% 400%
+    background-attachment: fixed
+    animation: gradientBG 15s ease infinite

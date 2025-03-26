@@ -1,7 +1,9 @@
+import { MainPage } from './pages/main-page/ui/MainPage'
+
 function App() {
   return (
     <main>
-      <p>Test App</p>
+      <MainPage />
     </main>
   )
 }
