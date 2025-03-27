@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 
 import { useAppSelector, useAppDispatch } from '@/app/store/hooks'
 import { updateUser } from '@/entities/user/model/usersSlice'
@@ -23,6 +23,10 @@ export const EditUserForm: FC = () => {
   const [userFormData, setFormData] = useState<Partial<UserFormData>>({})
   const [showErrors, setShowErrors] = useState(false)
 
+  useEffect(() => {
+    setFormData({})
+  }, [user])
+
   if (!user) return null
 
   const formData = {
@@ -33,13 +37,18 @@ export const EditUserForm: FC = () => {
 
   const validate = () => {
     const res = userSchema.safeParse(formData)
-    return res.success ? undefined : res.error.format()
+    return res.success ? null : res.error.format()
   }
 
   const reset = () => setFormData({})
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setFormData((l) => ({ ...l, [e.target.name]: e.target.value }))
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === 'age' ? Number(value) : value
+    }))
+  }
 
   const handleSubmit = async (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -59,12 +68,17 @@ export const EditUserForm: FC = () => {
     )
   }
 
-  const errors = showErrors ? validate() : undefined
+  const errors = showErrors ? validate() : null
 
-  const isDirty = Object.entries(userFormData).some(
-    ([key, value]) => user?.[key as never] !== value
-  )
+  const hasErrors = !!errors
 
+  const isDirty = Object.keys(userFormData).some((key) => {
+    const formKey = key as keyof typeof userFormData
+    return (
+      userFormData[formKey] !== undefined &&
+      userFormData[formKey] !== user?.[formKey as keyof IUser]
+    )
+  })
   return (
     <div className={styles.card}>
       <form onSubmit={handleSubmit}>
@@ -116,7 +130,7 @@ export const EditUserForm: FC = () => {
           </div>
 
           <div className={styles.buttonBox}>
-            <button type="submit" disabled={!!errors}>
+            <button type="submit" disabled={hasErrors || !isDirty}>
               Обновить пользователя
             </button>
 
