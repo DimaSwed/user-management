@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import usersReducer from '@/entities/user/model/usersSlice'
 
 export const store = () => {
-	return configureStore({
-		reducer: {}
-	})
+  return configureStore({
+    reducer: { users: usersReducer }
+  })
 }
 
 export type AppStore = ReturnType<typeof store>
