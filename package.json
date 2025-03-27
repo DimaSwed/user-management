@@ -14,7 +14,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0",
-    "react-window": "^1.8.11",
     "zod": "^3.24.2"
   },
   "devDependencies": {
@@ -23,7 +22,6 @@
     "@types/node": "^22.13.13",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@types/react-window": "^1.8.8",
     "@typescript-eslint/eslint-plugin": "^8.28.0",
     "@typescript-eslint/parser": "^8.28.0",
     "@vitejs/plugin-react": "^4.3.4",

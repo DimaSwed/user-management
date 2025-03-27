@@ -135,7 +135,7 @@ export const EditUserForm: FC = () => {
             </button>
 
             <button type="button" disabled={!isDirty} onClick={() => reset()}>
-              Reset
+              Сбросить изменения
             </button>
           </div>
         </div>
