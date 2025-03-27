@@ -1,14 +1,8 @@
 import { FC } from 'react'
 
-import styles from './UserCard.module.sass'
+import { IUser } from '@/shared/types/commonTypes'
 
-export interface IUser {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  age: number
-}
+import styles from './UserCard.module.sass'
 
 interface UserCardProps {
   user: IUser

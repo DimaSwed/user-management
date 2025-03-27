@@ -1,25 +1,36 @@
-import { FC } from 'react'
-import { UserCard } from '@/entities/user/ui'
-import { useAppSelector, useAppDispatch } from '@/app/store/hooks'
-import { selectUser } from '@/entities/user/model/usersSlice'
+import { FC, useRef, useCallback } from 'react'
 
-export interface IUser {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  age: number
-}
+import { useAppSelector, useAppDispatch } from '@/app/store/hooks'
+
+import { UserCard } from '@/entities/user/ui'
+import { loadMoreUsers, selectUser } from '@/entities/user/model/usersSlice'
+import { IUser } from '@/shared/types/commonTypes'
+
 export const UserList: FC = () => {
   const users = useAppSelector((state) => state.users.users)
   const dispatch = useAppDispatch()
 
-  const handleClick = (userId: IUser) => {
-    dispatch(selectUser(userId))
+  const listRef = useRef<HTMLDivElement>(null)
+
+  const handleScroll = useCallback(() => {
+    if (!listRef.current) return
+
+    const { scrollTop, scrollHeight, clientHeight } = listRef.current
+    if (scrollTop + clientHeight >= scrollHeight - 100) {
+      dispatch(loadMoreUsers())
+    }
+  }, [dispatch])
+
+  const handleClick = (user: IUser) => {
+    dispatch(selectUser(user))
   }
 
   return (
-    <div style={{ height: '100%', width: '100%', overflow: 'auto' }}>
+    <div
+      ref={listRef}
+      onScroll={handleScroll}
+      style={{ height: '100%', width: '100%', overflow: 'auto' }}
+    >
       {users.map((user, idx) => (
         <UserCard key={idx} user={user} onClick={() => handleClick(user)} />
       ))}
